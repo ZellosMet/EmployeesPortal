@@ -45,6 +45,6 @@ namespace EmployeesPortal.Models
 		[Required(ErrorMessage = "Ошибка в сумме заработка.")]
 		[Range(0, double.MaxValue, ErrorMessage = "Зарплата не может быть отрицательное")]
 		[DataType(DataType.Currency)]
-		public decimal Salary { get; set; }
+		public decimal? Salary { get; set; }
 	}
 }

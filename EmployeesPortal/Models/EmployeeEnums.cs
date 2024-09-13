@@ -10,7 +10,7 @@
 			Intern
 		}
 
-		public enum Departament
+		public enum Department
 		{ 
 			IT,
 			HR,

@@ -7,7 +7,7 @@
 		public string SearchTerm { get; set; }
 		public string SelectedDepartament { get; set; }
 		public string SelectedType { get; set; }
-		public int PageSizE { get; set; }
-		public int PagENumber { get; set; }
+		public int PageSize { get; set; }
+		public int PageNumber { get; set; }
 	}
 }
