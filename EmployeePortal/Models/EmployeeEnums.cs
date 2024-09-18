@@ -2,16 +2,16 @@
 {
     public enum EmployeeType
     {
-        Permanent,
-        Temporary,
-        Contract,
-        Intern
+        Постоянно,
+        Временно,
+        Контракт,
+        Практика
     }
     public enum Department
     {
-        IT,
-        HR,
-        Sales,
-        Admin
+        Отдел_ИТ,
+        Управление_Персоналом,
+        Продажи,
+        Администрация
     }
 }

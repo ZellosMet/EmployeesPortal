@@ -1,6 +1,5 @@
 ﻿@using EmployeePortal.Models
 @model EmployeeListViewModel
-
 @{
     ViewData["Title"] = "Employee List";
 }
@@ -14,7 +13,6 @@
                     <i class="bi bi-plus-circle"></i> Создать нового сотрудника
                 </a>
             </div>
-
             @if (TempData["Message"] != null)
             {
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -22,14 +20,11 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             }
-
-            <!-- Filter Section -->
             <div class="card mb-4 shadow-sm">
                 <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">🔍 Фильтр сотрудников </h5>
                     <span class="badge bg-light text-dark">Всего сотрудников: @Model.Employees.Count() 📝</span>
                 </div>
-
                 <div class="card-body">
                     <form method="get" asp-controller="Employee" asp-action="List" class="row g-3">
                         <div class="col-md-3">
@@ -58,21 +53,18 @@
                     </form>
                 </div>
             </div>
-
             <div class="card shadow-sm">
                 <div class="card-body p-0">
                     <table class="table table-hover table-striped mb-0">
                         <thead class="bg-primary text-white">
                             <tr>
-                                <th>📛 Имя </th>
-                                <th>📧 Почта </th>
-                                <th>💼 Должность </th>
-                                <th>🏢 Отделение </th>
-                                <th>⚧ Пол </th>
-                                <th>👔 Тип найма </th>
-                                <th class="text-center">⚙️ Действия </th>
-
-                          
+                                <th class="text-center">📛 Имя</th>
+                                <th class="text-center">📧 Почта</th>
+                                <th class="text-center">💼 Должность</th>
+                                <th class="text-center">🏢 Отделение</th>
+                                <th class="text-center">⚧ Пол</th>
+                                <th class="text-center">👔 Тип найма</th>
+                                <th class="text-center">⚙️ Действия</th>                          
                             </tr>
                         </thead>
                         <tbody>
@@ -86,15 +78,9 @@
                                     <td>@employee.Gender</td>
                                     <td>@employee.Type</td>
                                     <td class="text-center">
-                                        <a class="btn btn-sm btn-info" asp-controller="Employee" asp-action="Details" asp-route-id="@employee.Id">
-                                            <i class="bi bi-eye"></i> Описание
-                                        </a>
-                                        <a class="btn btn-sm btn-warning" asp-controller="Employee" asp-action="Update" asp-route-id="@employee.Id">
-                                            <i class="bi bi-pencil"></i> Редактированиеe
-                                        </a>
-                                        <a class="btn btn-sm btn-danger" asp-controller="Employee" asp-action="Delete" asp-route-id="@employee.Id">
-                                            <i class="bi bi-trash"></i> Удаление
-                                        </a>
+                                        <a class="btn btn-sm btn-info" asp-controller="Employee" asp-action="Details" asp-route-id="@employee.Id"><i class="bi bi-eye"></i>Описание</a>
+                                        <a class="btn btn-sm btn-warning" asp-controller="Employee" asp-action="Update" asp-route-id="@employee.Id"><i class="bi bi-pencil"></i>Редактированиеe</a>
+                                        <a class="btn btn-sm btn-danger" asp-controller="Employee" asp-action="Delete" asp-route-id="@employee.Id"><i class="bi bi-trash"></i>Удаление</a>
                                     </td>
                                 </tr>
                             }
@@ -102,55 +88,34 @@
                     </table>
                 </div>
             </div>
-
-            <!-- Pagination -->
             <nav aria-label="Employee List Pagination" class="mt-4">
                 <ul class="pagination justify-content-center mb-0">
                     @if (Model.PageNumber == 1)
                     {
-                        <li class="page-item disabled">
-                            <span class="page-link">Начало ⏮️</span>
-                        </li>
-                        <li class="page-item disabled">
-                            <span class="page-link">Предыдущий ⬅️</span>
-                        </li>
+                        <li class="page-item disabled"><span class="page-link">Начало ⏮️</span></li>
+                        <li class="page-item disabled"><span class="page-link">Предыдущий ⬅️</span></li>
                     }
                     else
                     {
-                        <li class="page-item">
-                            <a class="page-link" href="@Url.Action("List", "Employee", GetRouteValuesForPage(1))">First ⏮️</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="@Url.Action("List", "Employee", GetRouteValuesForPage(Model.PageNumber - 1))">Previous ⬅️</a>
-                        </li>
+                        <li class="page-item"><a class="page-link" href="@Url.Action("List", "Employee", GetRouteValuesForPage(1))">First ⏮️</a></li>
+                        <li class="page-item"><a class="page-link" href="@Url.Action("List", "Employee", GetRouteValuesForPage(Model.PageNumber - 1))">Previous ⬅️</a></li>
                     }
-                    <li class="page-item active">
-                        <span class="page-link">@Model.PageNumber</span>
-                    </li>
+                    <li class="page-item active"><span class="page-link">@Model.PageNumber</span></li>
                     @if (Model.PageNumber == Model.TotalPages)
                     {
-                        <li class="page-item disabled">
-                            <span class="page-link">Next ➡️</span>
-                        </li>
-                        <li class="page-item disabled">
-                            <span class="page-link">Last ⏭️</span>
-                        </li>
+                        <li class="page-item disabled"><span class="page-link">Next ➡️</span></li>
+                        <li class="page-item disabled"><span class="page-link">Last ⏭️</span></li>
                     }
                     else
                     {
-                        <li class="page-item">
-                            <a class="page-link" href="@Url.Action("List", "Employee", GetRouteValuesForPage(Model.PageNumber + 1))">Следующий ➡️</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="@Url.Action("List", "Employee", GetRouteValuesForPage(Model.TotalPages))">Конец ⏭️</a>
-                        </li>
+                        <li class="page-item"><a class="page-link" href="@Url.Action("List", "Employee", GetRouteValuesForPage(Model.PageNumber + 1))">Следующий ➡️</a></li>
+                        <li class="page-item"><a class="page-link" href="@Url.Action("List", "Employee", GetRouteValuesForPage(Model.TotalPages))">Конец ⏭️</a></li>
                     }
                 </ul>
             </nav>
         </div>
     </div>
 </div>
-
 
 @functions {
     private object GetRouteValuesForPage(int pageNumber)

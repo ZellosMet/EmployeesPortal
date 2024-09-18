@@ -6,178 +6,124 @@ namespace EmployeePortal.Controllers
 {
     public class EmployeeController : Controller
     {
-        private readonly EmployeeService _employeeService;
-
-        public EmployeeController()
+        private readonly EmployeeService ES;
+        public EmployeeController(EmployeeService employee_service)
         {
-            _employeeService = new EmployeeService();
+            ES = employee_service;
         }
 
         [HttpGet]
-        public async Task<IActionResult> List(
-        [FromQuery] string SearchTerm, // Model binding from the query string
-        [FromQuery] string SelectedDepartment, // Model binding from the query string
-        [FromQuery] string SelectedType, // Model binding from the query string
-        [FromQuery] int PageNumber = 1, // Model binding from the query string with a default value
-        [FromQuery] int PageSize = 5) // Model binding from the query string with a default value
-        {
-            // Retrieve the filtered and paginated list of employees
-            var (employees, totalCount) = await _employeeService.GetEmployees(SearchTerm, SelectedDepartment, SelectedType, PageNumber, PageSize);
-
+        public async Task<IActionResult> List([FromQuery] string search_term, [FromQuery] string selected_department, [FromQuery] string selected_type, [FromQuery] int page_number = 1, [FromQuery] int page_size = 5)
+        {           
+            var (employees, totalCount) = await ES.GetEmployees(search_term, selected_department, selected_type, page_number, page_size);
             var viewModel = new EmployeeListViewModel
             {
                 Employees = employees,
-                PageNumber = PageNumber,
-                PageSize = PageSize,
-                TotalPages = (int)Math.Ceiling((double)totalCount / PageSize),
-                SearchTerm = SearchTerm,
-                SelectedDepartment = SelectedDepartment,
-                SelectedType = SelectedType
+                TotalPages = (int)Math.Ceiling((double)totalCount / page_size),
+                SearchTerm = search_term,
+                SelectedDepartment = selected_department,
+                SelectedType = selected_type,
+                PageSize = page_size,
+                PageNumber = page_number
             };
 
-            // Generate SelectLists for dropdowns
             GetSelectLists();
-
-            // Set page size options in ViewBag for use in the view
-            ViewBag.PageSizeOptions = new SelectList(new List<int> { 3, 5, 10, 15, 20, 25 }, PageSize);
-
+            ViewBag.PageSizeOptions = new SelectList(new List<int> { 3, 5, 10, 15, 20, 25 }, page_size);
             return View(viewModel);
         }
 
         [HttpGet]
         public IActionResult Create()
         {
-            // Prepare dropdown options before rendering the Create view
             GetSelectLists();
             return View();
         }
 
-        // Model binding from the form data
         [HttpPost]
         public IActionResult Create([FromForm] Employee employee)
         {
             if (ModelState.IsValid)
             {
-                // Create a new employee and redirect to the Success page
-                _employeeService.CreateEmployee(employee);
+                ES.CreateEmployee(employee);
                 return RedirectToAction("Success", new { id = employee.Id });
             }
 
-            // If validation fails, regenerate dropdown options and return the view with validation errors
             GetSelectLists();
             return View(employee);
         }
 
-        // Model binding from the route data
         public IActionResult Success([FromRoute] int id)
         {
-            // Retrieve the employee by ID and display the Success view
-            var employee = _employeeService.GetEmployeeById(id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
+            var employee = ES.GetEmployeeById(id);
+            if (employee == null) return NotFound();
             return View(employee);
         }
 
-        // Model binding from the route data
         public IActionResult Details([FromRoute] int id)
         {
-            // Retrieve the employee details by ID and display the Details view
-            var employee = _employeeService.GetEmployeeById(id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
+            var employee = ES.GetEmployeeById(id);
+            if (employee == null) return NotFound();
             return View(employee);
         }
 
-        // Model binding from the route data
         [HttpGet]
         public IActionResult Update([FromRoute] int id)
         {
-            // Retrieve the employee by ID and prepare the Update view
-            var employee = _employeeService.GetEmployeeById(id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
+            var employee = ES.GetEmployeeById(id);
+            if (employee == null) return NotFound();
 
-            // Prepare dropdown options before rendering the Update view
             GetSelectLists();
             return View(employee);
         }
 
-        // Model binding from the form data
         [HttpPost]
         public IActionResult Update([FromForm] Employee employee)
         {
             if (ModelState.IsValid)
             {
-                // Update the employee details and redirect to the List view
-                _employeeService.UpdateEmployee(employee);
-                TempData["Message"] = $"Employee with ID {employee.Id} and Name {employee.FullName} has been updated.";
+                ES.UpdateEmployee(employee);
+                TempData["Message"] = $"Сотрудник с номером {employee.Id} и именем {employee.FullName} обнавлён.";
                 return RedirectToAction("List");
             }
 
-            // If validation fails, regenerate dropdown options and return the view with validation errors
             GetSelectLists();
             return View(employee);
         }
 
-        // Model binding from the route data
         [HttpGet]
         public IActionResult Delete([FromRoute] int id)
         {
-            // Retrieve the employee by ID and prepare the Delete confirmation view
-            var employee = _employeeService.GetEmployeeById(id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
+            var employee = ES.GetEmployeeById(id);
+            if (employee == null) return NotFound();
             return View(employee);
         }
 
-        // We use ActionName to map this method to the "Delete" action
-        // Model binding from the route data
         [HttpPost, ActionName("Delete")]
         public IActionResult DeleteConfirmed([FromRoute] int id)
         {
-            // Retrieve the employee by ID and delete the employee
-            var employee = _employeeService.GetEmployeeById(id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
+            var employee = ES.GetEmployeeById(id);
+            if (employee == null) return NotFound();
 
-            // Perform the deletion and redirect to the List view
-            _employeeService.DeleteEmployee(id);
-            TempData["Message"] = $"Employee with ID {id} and Name {employee.FullName} has been deleted.";
-
+            ES.DeleteEmployee(id);
+            TempData["Message"] = $"Сотрудник с номером {id} и именем {employee.FullName} удалён.";
             return RedirectToAction("List");
         }
 
-        // Model binding from the query string (default binding)
         [HttpGet]
         public JsonResult GetPositions(Department department)
         {
-            // This method returns a list of positions based on the department selected by the user
             var positions = new Dictionary<Department, List<string>>
             {
-                { Department.IT, new List<string> { "Разработка ПО", "Администрирование", "Сетевого обеспечения" } },
-                { Department.HR, new List<string> { "HR Specialist", "HR Manager", "Talent Acquisition Coordinator" } },
-                { Department.Sales, new List<string> { "Sales Executive", "Sales Manager", "Account Executive" } },
-                { Department.Admin, new List<string> { "Office Manager", "Executive Assistant", "Receptionist" } }
+                {Department.Отдел_ИТ, new List<string> {"Разработка ПО", "Администрирование", "Сетевого обеспечения"}},
+                {Department.Управление_Персоналом, new List<string> {"HR Специалист", "HR Менеджер", "Координатор по подбору персонала"}},
+                {Department.Продажи, new List<string> {"Директор по продажам", "Менеджер по продажам", "Менеджер по работе с клиентами"}},
+                {Department.Администрация, new List<string> {"Офис менеджер", "Помощник руководителя", "Секретарь"}}
             };
 
-            // Check if the department exists in the dictionary, and return the corresponding positions
             var result = positions.ContainsKey(department) ? positions[department] : new List<string>();
-
-            // Return the positions as a JSON response to be used in client-side scripts
             return Json(result);
         }
 
-        // Private method to generate SelectLists for dropdowns in the views
         private void GetSelectLists()
         {
             ViewBag.DepartmentOptions = new SelectList(Enum.GetValues(typeof(Department)).Cast<Department>());

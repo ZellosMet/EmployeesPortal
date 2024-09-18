@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace EmployeePortal.Models
-{
-   
+{   
         public class Employee
         {
             public int Id { get; set; }

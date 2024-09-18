@@ -1,6 +1,4 @@
-﻿//using EmployeePortal.Models;
-
-namespace EmployeePortal.Models
+﻿namespace EmployeePortal.Models
 {
     public class EmployeeListViewModel
     {
