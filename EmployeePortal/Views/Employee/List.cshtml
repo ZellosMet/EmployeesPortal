@@ -58,12 +58,12 @@
                     <table class="table table-hover table-striped mb-0">
                         <thead class="bg-primary text-white">
                             <tr>
-                                <th class="text-center">📛 Имя</th>
-                                <th class="text-center">📧 Почта</th>
-                                <th class="text-center">💼 Должность</th>
-                                <th class="text-center">🏢 Отделение</th>
-                                <th class="text-center">⚧ Пол</th>
-                                <th class="text-center">👔 Тип найма</th>
+                                <th>📛 Имя</th>
+                                <th>📧 Почта</th>
+                                <th>💼 Должность</th>
+                                <th>🏢 Отделение</th>
+                                <th>⚧ Пол</th>
+                                <th>👔 Тип найма</th>
                                 <th class="text-center">⚙️ Действия</th>                          
                             </tr>
                         </thead>
@@ -79,8 +79,8 @@
                                     <td>@employee.Type</td>
                                     <td class="text-center">
                                         <a class="btn btn-sm btn-info" asp-controller="Employee" asp-action="Details" asp-route-id="@employee.Id"><i class="bi bi-eye"></i>Описание</a>
-                                        <a class="btn btn-sm btn-warning" asp-controller="Employee" asp-action="Update" asp-route-id="@employee.Id"><i class="bi bi-pencil"></i>Редактированиеe</a>
-                                        <a class="btn btn-sm btn-danger" asp-controller="Employee" asp-action="Delete" asp-route-id="@employee.Id"><i class="bi bi-trash"></i>Удаление</a>
+                                        <a class="btn btn-sm btn-warning" asp-controller="Employee" asp-action="Update" asp-route-id="@employee.Id"><i class="bi bi-pencil"></i>Изменить</a>
+                                        <a class="btn btn-sm btn-danger" asp-controller="Employee" asp-action="Delete" asp-route-id="@employee.Id"><i class="bi bi-trash"></i>Удалить</a>
                                     </td>
                                 </tr>
                             }
@@ -97,14 +97,14 @@
                     }
                     else
                     {
-                        <li class="page-item"><a class="page-link" href="@Url.Action("List", "Employee", GetRouteValuesForPage(1))">First ⏮️</a></li>
-                        <li class="page-item"><a class="page-link" href="@Url.Action("List", "Employee", GetRouteValuesForPage(Model.PageNumber - 1))">Previous ⬅️</a></li>
+                        <li class="page-item"><a class="page-link" href="@Url.Action("List", "Employee", GetRouteValuesForPage(1))">Начало ⏮️</a></li>
+                        <li class="page-item"><a class="page-link" href="@Url.Action("List", "Employee", GetRouteValuesForPage(Model.PageNumber - 1))">Предыдущий ⬅️</a></li>
                     }
                     <li class="page-item active"><span class="page-link">@Model.PageNumber</span></li>
                     @if (Model.PageNumber == Model.TotalPages)
                     {
-                        <li class="page-item disabled"><span class="page-link">Next ➡️</span></li>
-                        <li class="page-item disabled"><span class="page-link">Last ⏭️</span></li>
+                        <li class="page-item disabled"><span class="page-link">Следующий ➡️</span></li>
+                        <li class="page-item disabled"><span class="page-link">Конец ⏭️</span></li>
                     }
                     else
                     {

@@ -13,22 +13,22 @@ namespace EmployeePortal.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> List([FromQuery] string search_term, [FromQuery] string selected_department, [FromQuery] string selected_type, [FromQuery] int page_number = 1, [FromQuery] int page_size = 5)
+        public async Task<IActionResult> List([FromQuery] string SearchTerm, [FromQuery] string SelectedDepartment, [FromQuery] string SelectedType, [FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 5)
         {           
-            var (employees, totalCount) = await ES.GetEmployees(search_term, selected_department, selected_type, page_number, page_size);
+            var (employees, totalCount) = await ES.GetEmployees(SearchTerm, SelectedDepartment, SelectedType, PageNumber, PageSize);
             var viewModel = new EmployeeListViewModel
             {
                 Employees = employees,
-                TotalPages = (int)Math.Ceiling((double)totalCount / page_size),
-                SearchTerm = search_term,
-                SelectedDepartment = selected_department,
-                SelectedType = selected_type,
-                PageSize = page_size,
-                PageNumber = page_number
+                TotalPages = (int)Math.Ceiling((double)totalCount / PageSize),
+                SearchTerm = SearchTerm,
+                SelectedDepartment = SelectedDepartment,
+                SelectedType = SelectedType,
+                PageSize = PageSize,
+                PageNumber = PageNumber
             };
 
             GetSelectLists();
-            ViewBag.PageSizeOptions = new SelectList(new List<int> { 3, 5, 10, 15, 20, 25 }, page_size);
+            ViewBag.PageSizeOptions = new SelectList(new List<int> { 3, 5, 10, 15, 20, 25 }, PageSize);
             return View(viewModel);
         }
 
@@ -115,7 +115,7 @@ namespace EmployeePortal.Controllers
             var positions = new Dictionary<Department, List<string>>
             {
                 {Department.Отдел_ИТ, new List<string> {"Разработка ПО", "Администрирование", "Сетевого обеспечения"}},
-                {Department.Управление_Персоналом, new List<string> {"HR Специалист", "HR Менеджер", "Координатор по подбору персонала"}},
+                {Department.Менеджер, new List<string> {"HR Специалист", "HR Менеджер", "Координатор по подбору персонала"}},
                 {Department.Продажи, new List<string> {"Директор по продажам", "Менеджер по продажам", "Менеджер по работе с клиентами"}},
                 {Department.Администрация, new List<string> {"Офис менеджер", "Помощник руководителя", "Секретарь"}}
             };
