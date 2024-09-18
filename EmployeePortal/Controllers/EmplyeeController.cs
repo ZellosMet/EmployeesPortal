@@ -110,14 +110,21 @@ namespace EmployeePortal.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetPositions(Department department)
+       // public JsonResult GetPositions(Department department)
+        public JsonResult GetPositions(string department)
         {
-            var positions = new Dictionary<Department, List<string>>
+            //var positions = new Dictionary<Department, List<string>>
+            var positions = new Dictionary<string, List<string>>
             {
-                {Department.Отдел_ИТ, new List<string> {"Разработка ПО", "Администрирование", "Сетевого обеспечения"}},
-                {Department.Менеджер, new List<string> {"HR Специалист", "HR Менеджер", "Координатор по подбору персонала"}},
-                {Department.Продажи, new List<string> {"Директор по продажам", "Менеджер по продажам", "Менеджер по работе с клиентами"}},
-                {Department.Администрация, new List<string> {"Офис менеджер", "Помощник руководителя", "Секретарь"}}
+                //{Department.Отдел_ИТ, new List<string> {"Разработка ПО", "Администрирование", "Сетевого обеспечения"}},
+                //{Department.Менеджер, new List<string> {"HR Специалист", "HR Менеджер", "Координатор по подбору персонала"}},
+                //{Department.Продажи, new List<string> {"Директор по продажам", "Менеджер по продажам", "Менеджер по работе с клиентами"}},
+                //{Department.Администрация, new List<string> {"Офис менеджер", "Помощник руководителя", "Секретарь"}}
+
+                {"Отдел_ИТ", new List<string> {"Разработка ПО", "Администрирование", "Сетевого обеспечения"}},
+                {"Менеджер", new List<string> {"HR Специалист", "HR Менеджер", "Координатор по подбору персонала"}},
+                {"Продажи", new List<string> {"Директор по продажам", "Менеджер по продажам", "Менеджер по работе с клиентами"}},
+                {"Администрация", new List<string> {"Офис менеджер", "Помощник руководителя", "Секретарь"}}
             };
 
             var result = positions.ContainsKey(department) ? positions[department] : new List<string>();
