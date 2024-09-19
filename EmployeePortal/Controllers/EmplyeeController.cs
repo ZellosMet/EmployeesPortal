@@ -1,4 +1,5 @@
 using EmployeePortal.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -7,10 +8,14 @@ namespace EmployeePortal.Controllers
     public class EmployeeController : Controller
     {
         private readonly EmployeeService ES;
-        public EmployeeController(EmployeeService employee_service)
-        {
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
+       public EmployeeController(EmployeeService employee_service, UserManager<User> userManager, SignInManager<User> signInManager)
+       {
             ES = employee_service;
-        }
+            _userManager = userManager;
+            _signInManager = signInManager;
+       }
 
         [HttpGet]
         public async Task<IActionResult> List([FromQuery] string SearchTerm, [FromQuery] string SelectedDepartment, [FromQuery] string SelectedType, [FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 5)
@@ -130,11 +135,38 @@ namespace EmployeePortal.Controllers
             var result = positions.ContainsKey(department) ? positions[department] : new List<string>();
             return Json(result);
         }
-
         private void GetSelectLists()
         {
             ViewBag.DepartmentOptions = new SelectList(Enum.GetValues(typeof(Department)).Cast<Department>());
             ViewBag.EmployeeTypeOptions = new SelectList(Enum.GetValues(typeof(EmployeeType)).Cast<EmployeeType>());
+        }
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Register(RegistrationModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                User user = new User { Email = model.Email, UserName = model.Email };
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, false);
+                    return RedirectToAction("Employee", "List");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+            }
+            return View(model);
         }
     }
 }

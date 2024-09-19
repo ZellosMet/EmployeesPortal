@@ -8,7 +8,7 @@ var connectionString = builder.Configuration.GetConnectionString("EmployeePortal
 
 builder.Services.AddDbContext<EmployeePortalContext>(options => options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<EmployeePortalContext>();
+builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<EmployeePortalContext>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
