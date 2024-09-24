@@ -2,6 +2,7 @@ using EmployeePortal.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authentication;
 
 namespace EmployeePortal.Controllers
 {
@@ -10,11 +11,12 @@ namespace EmployeePortal.Controllers
         private readonly EmployeeService ES;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-       public EmployeeController(EmployeeService employee_service, UserManager<User> userManager, SignInManager<User> signInManager)
+
+        public EmployeeController(EmployeeService employee_service, UserManager<User> userManager, SignInManager<User> signInManager)
        {
             ES = employee_service;
             _userManager = userManager;
-            _signInManager = signInManager;
+            _signInManager = signInManager;           
        }
 
         [HttpGet]
@@ -156,7 +158,7 @@ namespace EmployeePortal.Controllers
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, false);
-                    return RedirectToAction("Employee", "List");
+                    return RedirectToAction("List", "Employee");
                 }
                 else
                 {
@@ -167,6 +169,32 @@ namespace EmployeePortal.Controllers
                 }
             }
             return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult Login(string returnUrl = null)
+        {
+            return View(new LoginModel { ReturnUrl = returnUrl });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginModel model)
+        {
+           //if (ModelState.IsValid)
+           //{
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                if (result.Succeeded)
+                {                    
+                    return RedirectToAction("List", "Employee");
+                    
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+                }
+           //}
+           return View(model);           
         }
     }
 }

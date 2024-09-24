@@ -27,7 +27,20 @@
                         </li>
                         <li>
                             <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Register">Регистрация</a>
-                        </li>                    
+                        </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Login">@User.Identity.Name</a>
+                            </li>
+                            
+                        }
+                        else
+                        {
+                            <li>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Login">Авторизация</a>
+                            </li>
+                        }
                     </ul>                   
                 </div>
             </div>

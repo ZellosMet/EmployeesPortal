@@ -1,0 +1,32 @@
+﻿@model EmployeePortal.Models.LoginModel
+@{
+    ViewData["Title"] = "Log in";
+}
+<div class="row">
+    <div class="col-md-4">
+        <section>
+            <form method="post" asp-controller="Employee" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl">
+                <h2>Авторизация</h2>
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                <div class ="form-floating mb-3">
+                    <input asp-for="Email" class="form-control" autocomplete="username" aria-required="true" placeholder="Почта" />
+                    <label asp-for="Email" class="form-label">Почта</label>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
+                    <label asp-for="Password" class="form-label">Пароль</label>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div>
+                    <label asp-for="RememberMe"></label><br />
+                    <input asp-for="RememberMe" />
+                </div>
+                 <div>
+                    <input type="submit" value="Войти" />
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+

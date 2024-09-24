@@ -9,5 +9,7 @@
         public string SelectedType { get; set; }
         public int PageSize { get; set; }
         public int PageNumber { get; set; }
+        public bool IsLogin { get; set; }
+        public string UserName { get; set; }
     }
 }
