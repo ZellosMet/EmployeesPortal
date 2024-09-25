@@ -1,4 +1,4 @@
-using EmployeePortal.Models;
+п»їusing EmployeePortal.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -89,7 +89,7 @@ namespace EmployeePortal.Controllers
             if (ModelState.IsValid)
             {
                 ES.UpdateEmployee(employee);
-                TempData["Message"] = $"Сотрудник с номером {employee.Id} и именем {employee.FullName} обнавлён.";
+                TempData["Message"] = $"РЎРѕС‚СЂСѓРґРЅРёРє СЃ РЅРѕРјРµСЂРѕРј {employee.Id} Рё РёРјРµРЅРµРј {employee.FullName} РѕР±РЅР°РІР»С‘РЅ.";
                 return RedirectToAction("List");
             }
 
@@ -112,7 +112,7 @@ namespace EmployeePortal.Controllers
             if (employee == null) return NotFound();
 
             ES.DeleteEmployee(id);
-            TempData["Message"] = $"Сотрудник с номером {id} и именем {employee.FullName} удалён.";
+            TempData["Message"] = $"РЎРѕС‚СЂСѓРґРЅРёРє СЃ РЅРѕРјРµСЂРѕРј {id} Рё РёРјРµРЅРµРј {employee.FullName} СѓРґР°Р»С‘РЅ.";
             return RedirectToAction("List");
         }
 
@@ -123,15 +123,15 @@ namespace EmployeePortal.Controllers
             //var positions = new Dictionary<Department, List<string>>
             var positions = new Dictionary<string, List<string>>
             {
-                //{Department.Отдел_ИТ, new List<string> {"Разработка ПО", "Администрирование", "Сетевого обеспечения"}},
-                //{Department.Менеджер, new List<string> {"HR Специалист", "HR Менеджер", "Координатор по подбору персонала"}},
-                //{Department.Продажи, new List<string> {"Директор по продажам", "Менеджер по продажам", "Менеджер по работе с клиентами"}},
-                //{Department.Администрация, new List<string> {"Офис менеджер", "Помощник руководителя", "Секретарь"}}
+                //{Department.РћС‚РґРµР»_РРў, new List<string> {"Р Р°Р·СЂР°Р±РѕС‚РєР° РџРћ", "РђРґРјРёРЅРёСЃС‚СЂРёСЂРѕРІР°РЅРёРµ", "РЎРµС‚РµРІРѕРіРѕ РѕР±РµСЃРїРµС‡РµРЅРёСЏ"}},
+                //{Department.РњРµРЅРµРґР¶РµСЂ, new List<string> {"HR РЎРїРµС†РёР°Р»РёСЃС‚", "HR РњРµРЅРµРґР¶РµСЂ", "РљРѕРѕСЂРґРёРЅР°С‚РѕСЂ РїРѕ РїРѕРґР±РѕСЂСѓ РїРµСЂСЃРѕРЅР°Р»Р°"}},
+                //{Department.РџСЂРѕРґР°Р¶Рё, new List<string> {"Р”РёСЂРµРєС‚РѕСЂ РїРѕ РїСЂРѕРґР°Р¶Р°Рј", "РњРµРЅРµРґР¶РµСЂ РїРѕ РїСЂРѕРґР°Р¶Р°Рј", "РњРµРЅРµРґР¶РµСЂ РїРѕ СЂР°Р±РѕС‚Рµ СЃ РєР»РёРµРЅС‚Р°РјРё"}},
+                //{Department.РђРґРјРёРЅРёСЃС‚СЂР°С†РёСЏ, new List<string> {"РћС„РёСЃ РјРµРЅРµРґР¶РµСЂ", "РџРѕРјРѕС‰РЅРёРє СЂСѓРєРѕРІРѕРґРёС‚РµР»СЏ", "РЎРµРєСЂРµС‚Р°СЂСЊ"}}
 
-                {"Отдел_ИТ", new List<string> {"Разработка ПО", "Администрирование", "Сетевого обеспечения"}},
-                {"Менеджер", new List<string> {"HR Специалист", "HR Менеджер", "Координатор по подбору персонала"}},
-                {"Продажи", new List<string> {"Директор по продажам", "Менеджер по продажам", "Менеджер по работе с клиентами"}},
-                {"Администрация", new List<string> {"Офис менеджер", "Помощник руководителя", "Секретарь"}}
+                {"РћС‚РґРµР»_РРў", new List<string> {"Р Р°Р·СЂР°Р±РѕС‚РєР° РџРћ", "РђРґРјРёРЅРёСЃС‚СЂРёСЂРѕРІР°РЅРёРµ", "РЎРµС‚РµРІРѕРіРѕ РѕР±РµСЃРїРµС‡РµРЅРёСЏ"}},
+                {"РњРµРЅРµРґР¶РµСЂ", new List<string> {"HR РЎРїРµС†РёР°Р»РёСЃС‚", "HR РњРµРЅРµРґР¶РµСЂ", "РљРѕРѕСЂРґРёРЅР°С‚РѕСЂ РїРѕ РїРѕРґР±РѕСЂСѓ РїРµСЂСЃРѕРЅР°Р»Р°"}},
+                {"РџСЂРѕРґР°Р¶Рё", new List<string> {"Р”РёСЂРµРєС‚РѕСЂ РїРѕ РїСЂРѕРґР°Р¶Р°Рј", "РњРµРЅРµРґР¶РµСЂ РїРѕ РїСЂРѕРґР°Р¶Р°Рј", "РњРµРЅРµРґР¶РµСЂ РїРѕ СЂР°Р±РѕС‚Рµ СЃ РєР»РёРµРЅС‚Р°РјРё"}},
+                {"РђРґРјРёРЅРёСЃС‚СЂР°С†РёСЏ", new List<string> {"РћС„РёСЃ РјРµРЅРµРґР¶РµСЂ", "РџРѕРјРѕС‰РЅРёРє СЂСѓРєРѕРІРѕРґРёС‚РµР»СЏ", "РЎРµРєСЂРµС‚Р°СЂСЊ"}}
             };
 
             var result = positions.ContainsKey(department) ? positions[department] : new List<string>();
@@ -181,8 +181,8 @@ namespace EmployeePortal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginModel model)
         {
-           //if (ModelState.IsValid)
-           //{
+           if (ModelState.IsValid)
+           {
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {                    
@@ -191,9 +191,9 @@ namespace EmployeePortal.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+                    ModelState.AddModelError("", "РќРµРїСЂР°РІРёР»СЊРЅС‹Р№ Р»РѕРіРёРЅ Рё (РёР»Рё) РїР°СЂРѕР»СЊ");
                 }
-           //}
+           }
            return View(model);           
         }
     }
